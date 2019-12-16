@@ -70,7 +70,7 @@ pipeline {
                     input ("Merge stage to master? ")
                 //}
                 sshagent (credentials: ['e91user']) {
-                    sh "ssh -o StrictHostKeyChecking=no root@35.245.42.254 'cd /home/e91user/public-repo/ && git pull origin staging  && git checkout . && git checkout master && git merge remotes/origin/stage && git push'"
+                    sh "ssh -o StrictHostKeyChecking=no root@35.245.42.254 'cd /home/e91user/public-repo/ && git pull origin staging  && git checkout . && git checkout master && git merge remotes/origin/staging && git push'"
                 }
                 sleep 2
             }
