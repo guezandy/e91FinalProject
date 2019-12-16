@@ -47,7 +47,7 @@ pipeline {
         stage("run-docker-container-on-prod"){
             steps {
                 sshagent (credentials: ['e91user']) {
-                    sh "ssh -o StrictHostKeyChecking=no root@35.245.42.254 'docker kill prod-container || true && docker rm prod-container || true && cd /home/e91user/public-repo && docker build -t dev-container-image . && docker run --name prod-container -d -p 80:80 prod-container-image'"
+                    sh "ssh -o StrictHostKeyChecking=no root@35.245.42.254 'docker kill prod-container || true && docker rm prod-container || true && cd /home/e91user/public-repo && docker build -t prod-container-image . && docker run --name prod-container -d -p 80:80 prod-container-image'"
                 }
                 sleep 2
             }
