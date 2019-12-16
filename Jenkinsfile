@@ -5,7 +5,7 @@ pipeline {
         stage("pull-updates-to-dev"){
             steps {
                 sshagent (credentials: ['e91user']) {
-                    sh "ssh -o StrictHostKeyChecking=no root@18.207.186.240 'cd /home/e91user/public-repo && git checkout . && git checkout dev && git pull'"
+                    sh "ssh -o StrictHostKeyChecking=no root@18.207.186.240 'rm -rf /home/e91user/public-repo && git clone git@github.com:guezandy/e91FinalProject.git /home/e91user/public-repo && sleep 9 && cd /home/e91user/public-repo && git checkout . && git checkout dev && git pull'"
                 }
                 sleep 2
             }
@@ -37,7 +37,7 @@ pipeline {
                     input ("Merge dev to stage? ")
                 //}
                 sshagent (credentials: ['e91user']) {
-                    sh "ssh -o StrictHostKeyChecking=no root@3.92.179.213 'cd /home/e91user/public-repo/ && git pull origin dev  && git checkout . && git checkout staging && git merge -s ours remotes/origin/dev && git push'"
+                    sh "ssh -o StrictHostKeyChecking=no root@3.92.179.213 'rm -rf /home/e91user/public-repo && git clone git@github.com:guezandy/e91FinalProject.git /home/e91user/public-repo && sleep 9 && cd /home/e91user/public-repo/ && git pull origin dev  && git checkout . && git checkout staging && git merge remotes/origin/dev && git push'"
                 }
                 sleep 2
             }
@@ -70,7 +70,7 @@ pipeline {
                     input ("Merge staging to master? ")
                 //}
                 sshagent (credentials: ['e91user']) {
-                    sh "ssh -o StrictHostKeyChecking=no root@35.245.42.254 'cd /home/e91user/public-repo/ && git pull origin staging  && git checkout . && git checkout master && git merge -s ours remotes/origin/staging && git push'"
+                    sh "ssh -o StrictHostKeyChecking=no root@35.245.42.254 'rm -rf /home/e91user/public-repo && git clone git@github.com:guezandy/e91FinalProject.git /home/e91user/public-repo && sleep 9 && cd /home/e91user/public-repo/ && git pull origin staging  && git checkout . && git checkout master && git merge remotes/origin/staging && git push'"
                 }
                 sleep 2
             }
