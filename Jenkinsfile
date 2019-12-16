@@ -7,7 +7,7 @@ pipeline {
         stage("pull-updates-to-dev"){
             steps {
                 sshagent (credentials: ['e91user']) {
-                    sh "ssh -o StrictHostKeyChecking=no root@18.206.88.118 'cd /home/e91user/public-repo && git checkout . && git checkout dev && git pull'"
+                    sh "ssh -o StrictHostKeyChecking=no root@3.80.85.66 'cd /home/e91user/public-repo && git checkout . && git checkout dev && git pull'"
                 }
                 sleep 2
             }
@@ -15,7 +15,7 @@ pipeline {
         stage("run-docker-container-on-dev"){
             steps {
                 sshagent (credentials: ['e91user']) {
-                    sh "ssh -o StrictHostKeyChecking=no root@18.206.88.118 'docker kill dev-container || true && docker rm dev-container || true && cd /home/e91user/public-repo && docker build -t dev-container-image . && docker run --name dev-container -d -p 80:80 dev-container-image'"
+                    sh "ssh -o StrictHostKeyChecking=no root@3.80.85.66 'docker kill dev-container || true && docker rm dev-container || true && cd /home/e91user/public-repo && docker build -t dev-container-image . && docker run --name dev-container -d -p 80:80 dev-container-image'"
                 }
                 sleep 2
             }
@@ -24,7 +24,7 @@ pipeline {
         stage("check-output-on-dev"){
             steps {
                 script {
-                    def response = httpRequest 'http://18.206.88.118'
+                    def response = httpRequest 'http://3.80.85.66'
                     def json = new JsonSlurper().parseText(response.content)
                     echo "Status: ${response.status}"
                     def int responseStatus = ${response.status}
@@ -35,48 +35,13 @@ pipeline {
             }
         }
         
-        stage("merger-dev-to-stage"){
+        stage("merger-dev-to-prod"){
             steps('Merge approval') {
                 //timeout(time: 2, unit: “HOURS”) {
                     input ("Merge dev to master? ")
                 //}
                 sshagent (credentials: ['e91user']) {
-                    sh "ssh -o StrictHostKeyChecking=no root@3.85.142.62 'cd /home/e91user/public-repo/ && git pull origin dev  && git checkout . && git checkout stage && git merge remotes/origin/dev && git push'"
-                }
-                sleep 2
-            }
-        }
-   
-        stage("run-docker-container-on-stage"){
-            steps {
-                sshagent (credentials: ['e91user']) {
-                    sh "ssh -o StrictHostKeyChecking=no root@3.85.142.62 'docker kill stage-container || true && docker rm stage-container || true && cd /home/e91user/public-repo && docker build -t stage-container-image . && docker run --name stage-container -d -p 80:80 stage-container-image'"
-                }
-                sleep 2
-            }
-        }
-        
-        stage("check-output-on-stage"){
-            steps {
-                script {
-                    def response = httpRequest 'http://3.85.142.62'
-                    def json = new JsonSlurper().parseText(response.content)
-                    echo "Status: ${response.status}"
-                    def int responseStatus = ${response.status}
-                    if (responseStatus != 200) {
-                        currentBuild.result = 'FAILED'
-                    }
-                }
-            }
-        }
-        
-        stage("merger-stage-to-prod"){
-            steps('Merge approval') {
-                //timeout(time: 2, unit: “HOURS”) {
-                    input ("Merge stage to master? ")
-                //}
-                sshagent (credentials: ['e91user']) {
-                    sh "ssh -o StrictHostKeyChecking=no root@35.245.42.254 'cd /home/e91user/public-repo/ && git pull origin stage  && git checkout . && git checkout master && git merge remotes/origin/stage && git push'"
+                    sh "ssh -o StrictHostKeyChecking=no root@35.245.42.254 'cd /home/e91user/public-repo/ && git pull origin dev  && git checkout . && git checkout master && git merge remotes/origin/dev && git push'"
                 }
                 sleep 2
             }
