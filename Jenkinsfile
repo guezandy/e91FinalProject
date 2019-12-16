@@ -34,10 +34,10 @@ pipeline {
         stage("merge-dev-to-stage"){
             steps('Merge approval') {
                 //timeout(time: 2, unit: “HOURS”) {
-                    input ("Merge dev to master? ")
+                    input ("Merge dev to stage? ")
                 //}
                 sshagent (credentials: ['e91user']) {
-                    sh "ssh -o StrictHostKeyChecking=no root@3.92.179.213 'cd /home/e91user/public-repo/ && git pull origin dev  && git checkout . && git checkout staging && git merge remotes/origin/dev && git push'"
+                    sh "ssh -o StrictHostKeyChecking=no root@3.92.179.213 'cd /home/e91user/public-repo/ && git pull origin dev  && git checkout . && git checkout staging && git merge -s ours remotes/origin/dev && git push'"
                 }
                 sleep 2
             }
@@ -67,10 +67,10 @@ pipeline {
         stage("merge-stage-to-prod"){
             steps('Merge approval') {
                 //timeout(time: 2, unit: “HOURS”) {
-                    input ("Merge stage to master? ")
+                    input ("Merge staging to master? ")
                 //}
                 sshagent (credentials: ['e91user']) {
-                    sh "ssh -o StrictHostKeyChecking=no root@35.245.42.254 'cd /home/e91user/public-repo/ && git pull origin staging  && git checkout . && git checkout master && git merge remotes/origin/staging && git push'"
+                    sh "ssh -o StrictHostKeyChecking=no root@35.245.42.254 'cd /home/e91user/public-repo/ && git pull origin staging  && git checkout . && git checkout master && git merge -s ours remotes/origin/staging && git push'"
                 }
                 sleep 2
             }
