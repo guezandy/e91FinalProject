@@ -24,7 +24,6 @@ pipeline {
             steps {
                 script {
                     def response = httpRequest 'http://3.80.85.66'
-                    def json = new JsonSlurper().parseText(response.content)
                     echo "Status: ${response.status}"
                     def int responseStatus = ${response.status}
                     if (responseStatus != 200) {
