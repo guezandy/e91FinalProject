@@ -25,8 +25,7 @@ pipeline {
                 script {
                     def response = httpRequest 'http://3.80.85.66'
                     echo "Status: ${response.status}"
-                    def int responseStatus = ${response.status}
-                    if (responseStatus != 200) {
+                    if ("${response.status}" != "200") {
                         currentBuild.result = 'FAILED'
                     }
                 }
@@ -59,8 +58,7 @@ pipeline {
                 script {
                     def response = httpRequest 'http://35.245.42.254'
                     echo "Status: ${response.status}"
-                    def int responseStatus = ${response.status}
-                    if (responseStatus != 200) {
+                    if ("${response.status}" != "200") {
                         currentBuild.result = 'FAILED'
                     }
                 }
