@@ -37,7 +37,7 @@ pipeline {
                     input ("Merge dev to master? ")
                 //}
                 sshagent (credentials: ['e91user']) {
-                    sh "ssh -o StrictHostKeyChecking=no root@3.92.179.213 'cd /home/e91user/public-repo/ && git pull origin dev  && git checkout . && git checkout stage && git merge remotes/origin/dev && git push'"
+                    sh "ssh -o StrictHostKeyChecking=no root@3.92.179.213 'cd /home/e91user/public-repo/ && git pull origin dev  && git checkout . && git checkout staging && git merge remotes/origin/dev && git push'"
                 }
                 sleep 2
             }
@@ -70,7 +70,7 @@ pipeline {
                     input ("Merge stage to master? ")
                 //}
                 sshagent (credentials: ['e91user']) {
-                    sh "ssh -o StrictHostKeyChecking=no root@35.245.42.254 'cd /home/e91user/public-repo/ && git pull origin stage  && git checkout . && git checkout master && git merge remotes/origin/stage && git push'"
+                    sh "ssh -o StrictHostKeyChecking=no root@35.245.42.254 'cd /home/e91user/public-repo/ && git pull origin staging  && git checkout . && git checkout master && git merge remotes/origin/stage && git push'"
                 }
                 sleep 2
             }
