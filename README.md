@@ -1,5 +1,5 @@
 # e91FinalProject
-Public Repo for E91 Final Project
+Public Repo for CSCI E91 Final Project.
 
 ## Team 
 
