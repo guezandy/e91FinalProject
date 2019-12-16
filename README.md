@@ -1,4 +1,10 @@
 # e91FinalProject
 Public Repo for E91 Final Project
 
-build8
+## Team 
+
+| Name              |           Email             | 
+|-------------------|-----------------------------| 
+| Andrew Rodriguez  | anr975@g.harvard.edu        |
+| Pulkit Bhanot     | pulkitbhanot@g.harvard.edu  |
+| Abid Syed         | abs376@g.harvard.edu        |
